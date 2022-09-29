@@ -1,7 +1,7 @@
 /* global mapboxgl */
 
 mapboxgl.accessToken =
-  "pk.eyJ1IjoiYmVuLWpheSIsImEiOiJjbDc1MmNqbjExbHVkM29udGw4Mm11bDRrIn0.F2BEbTgZI0ADfo0qXU2U2A";
+  "pk.eyJ1IjoiYmVuLWpheSIsImEiOiJjbDhuNTNzdWowNWx1M3VxdXk0anRvdTdiIn0.VVQCsIEEyLw-G7uxPcdW_Q";
 
 
 var zoomScale = d3.scaleLinear()
