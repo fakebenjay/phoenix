@@ -563,11 +563,14 @@ function makeGeoJSON(csvData) {
             ${city} AZ, ${zip}
             <br/><br/>
             ${owner}
-            ${!!owner1 && owner1 != owner ? `<br>` + owner1:''}
-            ${!!owner2 && owner2 != owner1 && owner2 != owner? `<br>` + owner2:''}`
+            `
+            // ${!!owner1 && owner1 != owner ? `<br>` + owner1:''}
+            // ${!!owner2 && owner2 != owner1 && owner2 != owner? `<br>` + owner2:''}`
           )
           .addTo(map);
+
       });
+
 
       map.on('mouseenter', 'clusters', () => {
         map.getCanvas().style.cursor = 'pointer';
