@@ -13,6 +13,10 @@
   width: 50%;
 }
 
+.mapboxgl-popup-content {
+  line-height: normal;
+}
+
 .invisible {
   display: none;
 }
@@ -29,7 +33,7 @@ svg {
   background-color: #f4f3f4;
 }
 
-#savannah-map {
+#phoenix-map {
   position: absolute;
   top: 0;
   bottom: 0;
