@@ -35,7 +35,7 @@ map.addControl(nav, "top-right");
 map.on('load', () => {
   map.addSource("zips", {
     type: "geojson",
-    data: 'phoenix-data-filter.json',
+    data: 'phoenix-data-filterv2.json',
   });
 
   map.addLayer({
@@ -429,7 +429,7 @@ map.on('load', () => {
 $(document).ready(function() {
   $.ajax({
       type: "GET",
-      url: 'corp-sorted.csv',
+      url: 'corp-sortedv2.csv',
       dataType: "text",
       success: function(csvData) {
         makeGeoJSON(csvData);
@@ -447,8 +447,8 @@ function makeGeoJSON(csvData) {
     data.features.forEach((d) => {
       var select = document.querySelector('select.companies')
       var option = document.createElement("option");
-      option.className = d.properties['P_NAME'].toLowerCase().replaceAll(' ', '-')
-      option.value = d.properties['P_NAME'].toLowerCase().replaceAll(' ', '-')
+      option.className = d.properties['P_NAME'].toLowerCase().replaceAll(' / ', '-').replaceAll(' ', '-').replaceAll('.', '')
+      option.value = d.properties['P_NAME']
       option.text = d.properties['P_NAME']
       if (!Array.from(select.children).includes(document.querySelector(`option.${option.className}`))) {
         select.add(option);
@@ -530,24 +530,6 @@ function makeGeoJSON(csvData) {
         }
       });
 
-      map.on('click', 'clusters', (e) => {
-        const features = map.queryRenderedFeatures(e.point, {
-          layers: ['clusters']
-        });
-        const clusterId = features[0].properties.cluster_id;
-        map.getSource('houses').getClusterExpansionZoom(
-          clusterId,
-          (err, zoom) => {
-            if (err) return;
-
-            map.easeTo({
-              center: features[0].geometry.coordinates,
-              zoom: zoom + 1
-            });
-          }
-        );
-      });
-
       var popup = new mapboxgl.Popup()
 
       // When a click event occurs on a feature in
@@ -618,6 +600,25 @@ function makeGeoJSON(csvData) {
           )
           .addTo(map);
 
+      });
+
+      map.on('click', 'clusters', (e) => {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ['clusters']
+        });
+        const clusterId = features[0].properties.cluster_id;
+        map.getSource('houses').getClusterExpansionZoom(
+          clusterId,
+          (err, zoom) => {
+            if (err) return;
+
+            map.easeTo({
+              center: features[0].geometry.coordinates,
+              zoom: zoom + 1
+            });
+          }
+        );
+        popup.remove();
       });
 
       map.on('click', 'unclustered-point', (e) => {
@@ -747,7 +748,7 @@ function makeGeoJSON(csvData) {
         map.getSource('houses').setData({
           type: "FeatureCollection",
           features: data.features.filter(function(d) {
-            let val = $("select.companies").selectize()[0].selectize.getValue().toUpperCase().replaceAll('-', ' ')
+            let val = $("select.companies").selectize()[0].selectize.getValue()
             if (!!val) {
               return d.properties['P_NAME'] === val
             } else {
