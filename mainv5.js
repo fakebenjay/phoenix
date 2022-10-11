@@ -27,6 +27,19 @@ const map = new mapboxgl.Map({
 });
 
 // Navigation buttons //
+
+
+const geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl,
+  bbox: [-112.85, 33.25, -111.5, 33.9],
+  autocomplete: false,
+  zoom: 15
+})
+
+map.addControl(geocoder, "top-right")
+// .setBbox([-111.5, 33.25, -112.85, 33.9])
+
 const nav = new mapboxgl.NavigationControl({
   showCompass: false,
 });
@@ -627,7 +640,6 @@ function makeGeoJSON(csvData) {
         const city = e.features[0].properties['S_CITY'];
         const zip = e.features[0].properties['S_ZIP'];
         const company = e.features[0].properties['P_NAME'];
-        const companyRender = company === 'HOME PARTNERS' || company === 'PATHLIGHT PROPERTY MANAGEMENT' ? 'PATHLIGHT PROPERTY MANAGEMENT/HOME PARTNERS' : company
         const owner = e.features[0].properties['O_NAME'];
         const owner1 = e.features[0].properties['O_NAME_ONE'];
         const owner2 = e.features[0].properties['O_NAME_TWO'];
@@ -637,12 +649,8 @@ function makeGeoJSON(csvData) {
         const o_zip = e.features[0].properties['O_ZIP'];
         const o_zip_render = o_zip.length > 5 ? o_zip.slice(0, 5) + '-' + o_zip.slice(5, 9) : o_zip
 
-        if (company === 'HOME PARTNERS' && o_city === 'PLANO') {
+        if (company.includes('Pathlight') && o_city === 'PLANO' && o_addr.includes('RIVERSIDE')) {
           var asterisk = "<br/><br/><em style='color:red;font-size:9pt;line-height:normal;'>*The address listed in public records doesn't exist, but Home Partners is based out of the above address, but in Chicago. Pathlight Property Management, which partners with Home Partners on a lease purchase program, is based out of Plano.</span>"
-        } else if (company === 'HOME PARTNERS' && o_city === 'CHICAGO') {
-          var asterisk = "<br/><br/><em style='color:black;font-size:9pt;line-height:normal;'>*Home Partners and Pathlight Property Management are partners on a lease purchase program. Pathlight Property Management is based out of Plano, Texas.</span>"
-        } else if (company === 'PATHLIGHT PROPERTY MANAGEMENT' && o_city === 'PLANO') {
-          var asterisk = "<br/><br/><em style='color:black;font-size:9pt;line-height:normal;'>*Pathlight Property Management and Home Partners are partners on a lease purchase program. Home Partners is based out of Chicago.</span>"
         } else {
           var asterisk = ""
         }
@@ -666,12 +674,12 @@ function makeGeoJSON(csvData) {
             ${city} AZ, ${zip}</strong>
             <br/><br/>
             owned by:<br/>
-            <strong style="font-size:12pt;">${companyRender}</strong>
+            <strong style="font-size:12pt;">${company}</strong>
             <br/><br/>
             listed as:<br/>
             <strong>${owner}</strong><br/>
-            <span style="color:${company === 'HOME PARTNERS' && o_city === 'PLANO' ? 'red':'black'}">${o_addr}<br/>
-            ${o_city} ${o_state}, ${o_zip_render}</span>
+            <span style="color:${!!asterisk ? 'red':'black'}">${o_addr}<br/>
+            ${o_city}, ${o_state} ${o_zip_render}</span>
             ${asterisk}
             `
             // ${!!owner1 && owner1 != owner ? `<br>` + owner1:''}
