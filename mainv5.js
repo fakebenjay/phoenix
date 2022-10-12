@@ -21,7 +21,7 @@ const map = new mapboxgl.Map({
   zoom: zoomScale(window.innerWidth),
   projection: 'mercator',
   maxBounds: [
-    [-112.85, 33.25],
+    [-112.85, 33.0],
     [-111.5, 33.9]
   ]
 });
@@ -32,13 +32,13 @@ const map = new mapboxgl.Map({
 const geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl,
-  bbox: [-112.85, 33.25, -111.5, 33.9],
+  bbox: [-112.85, 33.0, -111.5, 33.9],
   autocomplete: false,
   zoom: 15
 })
 
 map.addControl(geocoder, "top-right")
-// .setBbox([-111.5, 33.25, -112.85, 33.9])
+// .setBbox([-111.5, 33.0, -112.85, 33.9])
 
 const nav = new mapboxgl.NavigationControl({
   showCompass: false,
@@ -48,7 +48,7 @@ map.addControl(nav, "top-right");
 map.on('load', () => {
   map.addSource("zips", {
     type: "geojson",
-    data: 'phoenix-data-filterv2.json',
+    data: 'phoenix-data-ranked.json',
   });
 
   map.addLayer({
@@ -556,32 +556,8 @@ function makeGeoJSON(csvData) {
         const top_corpo = e.features[0].properties['top_corpo'];
         const total = e.features[0].properties['total'];
         const top_corpo_rate = e.features[0].properties['top_corpo_rate'];
-
-        // const company = e.features[0].properties['P_NAME'];
-        // const companyRender = company === 'HOME PARTNERS' || company === 'PATHLIGHT PROPERTY MANAGEMENT' ? 'PATHLIGHT PROPERTY MANAGEMENT/HOME PARTNERS' : company
-        // const owner = e.features[0].properties['O_NAME'];
-        // const owner1 = e.features[0].properties['O_NAME_ONE'];
-        // const owner2 = e.features[0].properties['O_NAME_TWO'];
-        // const o_addr = e.features[0].properties['O_ADDR1'];
-        // const o_city = e.features[0].properties['O_CITY'];
-        // const o_state = e.features[0].properties['O_STATE'];
-        // const o_zip = e.features[0].properties['O_ZIP'];
-        // const o_zip_render = o_zip.length > 5 ? o_zip.slice(0, 5) + '-' + o_zip.slice(5, 9) : o_zip
-
-        // if (company === 'HOME PARTNERS' && o_city === 'PLANO') {
-        //   var asterisk = "<br/><br/><em style='color:red;font-size:9pt;line-height:normal;'>*The address listed in public records doesn't exist, but Home Partners is based out of the above address, but in Chicago. Pathlight Property Management, which partners with Home Partners on a lease purchase program, is based out of Plano.</span>"
-        // } else if (company === 'HOME PARTNERS' && o_city === 'CHICAGO') {
-        //   var asterisk = "<br/><br/><em style='color:black;font-size:9pt;line-height:normal;'>*Home Partners and Pathlight Property Management are partners on a lease purchase program. Pathlight Property Management is based out of Plano, Texas.</span>"
-        // } else if (company === 'PATHLIGHT PROPERTY MANAGEMENT' && o_city === 'PLANO') {
-        //   var asterisk = "<br/><br/><em style='color:black;font-size:9pt;line-height:normal;'>*Pathlight Property Management and Home Partners are partners on a lease purchase program. Home Partners is based out of Chicago.</span>"
-        // } else {
-        //   var asterisk = ""
-        // }
-
-        // const asterisk = company === 'HOME PARTNERS' && o_city === 'PLANO' ? : ''
-        // if (!!asterisk) {
-        //   debugger
-        // }
+        const rank = e.features[0].properties['top_corpo_rank'];
+        const pct_of_citywide = e.features[0].properties['top_corpo_pct_of_citywide'];
 
         // Ensure that if the map is zoomed out such that
         // multiple copies of the feature are visible, the
@@ -595,21 +571,14 @@ function makeGeoJSON(csvData) {
           .setHTML(
             `<strong style="font-size:16pt;width:100%;text-align:center;">${zip}</strong>
             <br/><br/>
-            <span style='font-size:10pt;'><strong style='font-size:12pt;'>${numeral(top_corpo).format('0,0')}</strong> of <strong style='font-size:12pt;'>${numeral(total).format('0,0')}</strong> properties owned by top listed corporations.</span><br/><br/>
-            <span style='font-size:10pt;'>Corporate ownership rate of <strong style='font-size:12pt;'>${numeral(top_corpo_rate).format('0[.]0%')}</strong></style>`
-            // `${city} AZ, ${zip}</strong>
-            // <br/><br/>
-            // owned by:<br/>
-            // <strong style="font-size:12pt;">${companyRender}</strong>
-            // <br/><br/>
-            // listed as:<br/>
-            // <strong>${owner}</strong><br/>
-            // <span style="color:${company === 'HOME PARTNERS' && o_city === 'PLANO' ? 'red':'black'}">${o_addr}<br/>
-            // ${o_city} ${o_state}, ${o_zip_render}</span>
-            // ${asterisk}
-            // `
-            // ${!!owner1 && owner1 != owner ? `<br>` + owner1:''}
-            // ${!!owner2 && owner2 != owner1 && owner2 != owner? `<br>` + owner2:''}`
+            <span style='font-size:10pt;'><strong style='font-size:12pt;'>${numeral(top_corpo).format('0,0')}</strong> of <strong style='font-size:12pt;'>${numeral(total).format('0,0')}</strong> total single family detached rental properties are owned by Phoenix's top 25 corporate real estate holders.</span><br/><br/>
+            <span style='font-size:10pt;'>Top corporate ownership rate of <strong style='font-size:12pt;'>${numeral(top_corpo_rate).format('0[.]0%')}</strong></span>
+            <br/><br/>
+
+            <span style='font-size:10pt;'>That's <strong style='font-size:12pt;'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
+            <br/><br/>
+            <span style='font-size:10pt;'>Ranked <strong style='font-size:12pt;'>#${numeral(rank).format('0,0')}</strong> of <strong style='font-size:12pt;'>42</strong>${rank == 40 ? ' <strong>(3-way tie)</strong>':''}</span>
+            `
           )
           .addTo(map);
 
