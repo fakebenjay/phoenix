@@ -631,6 +631,8 @@ function makeGeoJSON(csvData) {
 
         if (company.includes('Pathlight') && o_city === 'PLANO' && o_addr.includes('RIVERSIDE')) {
           var asterisk = "<br/><br/><em style='color:red;font-size:9pt;line-height:normal;'>*The address listed in public records doesn't exist, but Home Partners is based out of the above address, but in Chicago. Pathlight Property Management, which partners with Home Partners on a lease purchase program, is based out of Plano.</span>"
+        } else if (company.includes('Morningside') && o_addr.includes('2307')) {
+          var asterisk = "<br/><br/><em style='color:red;font-size:9pt;line-height:normal;'>*The address listed in public records is likely an error. Morningside Funding LLC is registered at 2370 Rice Boulevard, Suite 200 in Houston.</span>"
         } else {
           var asterisk = ""
         }
