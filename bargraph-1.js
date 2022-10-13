@@ -38,7 +38,7 @@ svg.append("g")
   .attr("transform", `translate(${margin.left},${height - margin.bottom})`)
   .attr("class", "grid")
   .style('color', 'black')
-  .style('opacity', '0.3')
+  .style('opacity', '0.2')
   .call(xGrid)
 
 var yScale
@@ -80,15 +80,17 @@ d3.csv("corps.csv")
       .enter()
       .append("text")
       .text(function(d) {
-        return d.corp + ' (' + d.count + `${d.corp.includes('Invitation') ? ' SFRs)' : ')'}`
+        var count = true ? ' (' + numeral(d.count).format('0,0') + `${d.corp.includes('Invitation') ? ' SFRs)' : ')'}` : ''
+        return d.corp + count
       })
       .attr('font-size', '11px')
       .attr("x", function(d) {
         let w = this.getBoundingClientRect().width
-        if (w > xScale(d.count)) {
-          return xScale(d.count) + 3 + margin.left
-        } else {
+        if (w - 6 + xScale(d.count) > xScale.range()[1]) {
           return xScale(d.count) - w + margin.left
+
+        } else {
+          return xScale(d.count) + 3 + margin.left
         }
       })
       .attr("y", function(d) {
@@ -99,10 +101,10 @@ d3.csv("corps.csv")
       })
       .attr("fill", function(d) {
         let w = this.getBoundingClientRect().width
-        if (w > xScale(d.count)) {
-          return 'black'
-        } else {
+        if (w - 6 + xScale(d.count) > xScale.range()[1]) {
           return 'white'
+        } else {
+          return 'black'
         }
       })
       .attr("text-anchor", "start")
