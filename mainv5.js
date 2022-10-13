@@ -577,7 +577,7 @@ function makeGeoJSON(csvData) {
           .setHTML(
             `<strong style="font-size:16pt;width:100%;text-align:center;">${zip}</strong>
             <br/><br/>
-            <span style='font-size:10pt;'><strong style='font-size:12pt;'>${numeral(top_corpo).format('0,0')}</strong> of <strong style='font-size:12pt;'>${numeral(total).format('0,0')}</strong> total single family detached rental properties are owned by Phoenix's top 25 corporate real estate holders.</span><br/><br/>
+            <span style='font-size:10pt;'><strong style='font-size:12pt;'>${numeral(top_corpo).format('0,0')}</strong> of <strong style='font-size:12pt;'>${numeral(total).format('0,0')}</strong> total single family detached rental properties are owned by Phoenix's top 25 corporate detached SFR holders.</span><br/><br/>
             <span style='font-size:10pt;'>Top corporate ownership rate of <strong style='font-size:12pt;'>${numeral(top_corpo_rate).format('0[.]0%')}</strong></span>
             <br/><br/>
 
