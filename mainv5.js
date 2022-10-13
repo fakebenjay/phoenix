@@ -54,7 +54,7 @@ map.addControl(nav, "top-right");
 map.on('load', () => {
   map.addSource("zips", {
     type: "geojson",
-    data: 'phoenix-data-ranked.json',
+    data: 'phoenix-data-rankedv3.json',
   });
 
   map.addLayer({
@@ -448,7 +448,7 @@ map.on('load', () => {
 $(document).ready(function() {
   $.ajax({
       type: "GET",
-      url: 'corp-sortedv2.csv',
+      url: 'geocodedv3.csv',
       dataType: "text",
       success: function(csvData) {
         makeGeoJSON(csvData);
@@ -583,7 +583,7 @@ function makeGeoJSON(csvData) {
 
             <span style='font-size:10pt;'>That's <strong style='font-size:12pt;padding:0 3px;border-radius:5px;background-color:${colorScale(pct_of_citywide)};color:${pct_of_citywide > 1.5 || pct_of_citywide < .45 ? 'white':'black'}'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
             <br/><br/>
-            <span style='font-size:10pt;'>Ranked <strong style='font-size:12pt;'>#${numeral(rank).format('0,0')}</strong> of <strong style='font-size:12pt;'>42</strong>${rank == 40 ? ' <strong>(3-way tie)</strong>':''}</span>
+            <span style='font-size:10pt;'>Ranked <strong style='font-size:12pt;'>#${numeral(rank).format('0,0')}</strong> of <strong style='font-size:12pt;'>42</strong>${rank == 41 ? ' <strong>(2-way tie)</strong>':''}</span>
             `
           )
           .addTo(map);

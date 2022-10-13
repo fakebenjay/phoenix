@@ -313,9 +313,10 @@ strong.trial.pending {
     font-size: 10pt;
   } */
   .quit {
-    float: right;
+    float: left;
     display: inline;
     width: 2%;
+    padding: 0 5px;
   }
 
   .my-tooltip {
@@ -323,7 +324,6 @@ strong.trial.pending {
     box-sizing: -webkit-border-box;
     max-width: 100%;
     min-width: 100%;
-    padding: 10px 0;
     position: relative !important;
     overflow: auto;
     margin-bottom: 30px;
