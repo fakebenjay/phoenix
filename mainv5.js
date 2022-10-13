@@ -581,7 +581,7 @@ function makeGeoJSON(csvData) {
             <span style='font-size:10pt;'>Top corporate ownership rate of <strong style='font-size:12pt;'>${numeral(top_corpo_rate).format('0[.]0%')}</strong></span>
             <br/><br/>
 
-            <span style='font-size:10pt;'>That's <strong style='font-size:12pt;padding:0 3px;background-color:${colorScale(pct_of_citywide)};color:${pct_of_citywide > 1.5 || pct_of_citywide < .45 ? 'white':'black'}'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
+            <span style='font-size:10pt;'>That's <strong style='font-size:12pt;padding:0 3px;border-radius:5px;background-color:${colorScale(pct_of_citywide)};color:${pct_of_citywide > 1.5 || pct_of_citywide < .45 ? 'white':'black'}'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
             <br/><br/>
             <span style='font-size:10pt;'>Ranked <strong style='font-size:12pt;'>#${numeral(rank).format('0,0')}</strong> of <strong style='font-size:12pt;'>42</strong>${rank == 40 ? ' <strong>(3-way tie)</strong>':''}</span>
             `
