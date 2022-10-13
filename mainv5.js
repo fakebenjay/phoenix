@@ -14,6 +14,12 @@ var latScale = d3.scaleLinear()
   .range([-112.0740, -112.0740, -112.0740])
   .clamp(true)
 
+var colorScale = d3.scaleLinear()
+  .domain([2.174, 1.087, 1, 0.5, 0])
+  .range(['#db4325', '#eda247', '#e6e1bc', '#57C4AD', '#006164'])
+  .clamp(true)
+//#e6e1bc
+
 const map = new mapboxgl.Map({
   container: "phoenix-map",
   style: "mapbox://styles/mapbox/light-v10", // <- more at https://docs.mapbox.com/api/maps/styles/
@@ -575,7 +581,7 @@ function makeGeoJSON(csvData) {
             <span style='font-size:10pt;'>Top corporate ownership rate of <strong style='font-size:12pt;'>${numeral(top_corpo_rate).format('0[.]0%')}</strong></span>
             <br/><br/>
 
-            <span style='font-size:10pt;'>That's <strong style='font-size:12pt;'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
+            <span style='font-size:10pt;'>That's <strong style='font-size:12pt;padding:0 3px;background-color:${colorScale(pct_of_citywide)};color:${pct_of_citywide > 1.5 || pct_of_citywide < .45 ? 'white':'black'}'>${pct_of_citywide < 1.08 ? numeral(pct_of_citywide).format('0[.]0%') + '</strong> of' : numeral(pct_of_citywide).format('0,0[.]0') + ' times</strong>'} the citywide rate of <strong style='font-size:12pt;'>18.3%</strong></span>
             <br/><br/>
             <span style='font-size:10pt;'>Ranked <strong style='font-size:12pt;'>#${numeral(rank).format('0,0')}</strong> of <strong style='font-size:12pt;'>42</strong>${rank == 40 ? ' <strong>(3-way tie)</strong>':''}</span>
             `
