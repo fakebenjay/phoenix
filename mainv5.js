@@ -5,13 +5,18 @@ mapboxgl.accessToken =
 
 
 var zoomScale = d3.scaleLinear()
-  .domain([200, 375, 640])
-  .range([8.6, 8.6, 8.6])
+  .domain([639, 640])
+  .range([8.3, 8.6])
   .clamp(true)
 
 var latScale = d3.scaleLinear()
   .domain([200, 375, 640])
   .range([-112.0740, -112.0740, -112.0740])
+  .clamp(true)
+
+var lngScale = d3.scaleLinear()
+  .domain([639, 640])
+  .range([33.635, 33.585])
   .clamp(true)
 
 var colorScale = d3.scaleLinear()
@@ -23,12 +28,12 @@ var colorScale = d3.scaleLinear()
 const map = new mapboxgl.Map({
   container: "phoenix-map",
   style: "mapbox://styles/mapbox/light-v10", // <- more at https://docs.mapbox.com/api/maps/styles/
-  center: [latScale(window.innerWidth), 33.585], // <- [longitude, latitude]
+  center: [latScale(window.innerWidth), lngScale(window.innerWidth)], // <- [longitude, latitude]
   zoom: zoomScale(window.innerWidth),
   projection: 'mercator',
   maxBounds: [
     [-112.85, 33.0],
-    [-111.5, 33.9]
+    [-111.5, 34.1]
   ]
 });
 
@@ -38,7 +43,7 @@ const map = new mapboxgl.Map({
 const geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl,
-  bbox: [-112.85, 33.0, -111.5, 33.9],
+  bbox: [-112.85, 33.0, -111.5, 34.1],
   autocomplete: false,
   zoom: 15
 })

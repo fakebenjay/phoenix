@@ -1,6 +1,6 @@
 // set the dimensions and margins of the graph
 var margin = {
-  top: 10,
+  top: 0,
   right: 10,
   bottom: 20,
   left: 10
@@ -8,7 +8,7 @@ var margin = {
 
 var winWidth = window.innerWidth
 var width = document.getElementById('chart-1').offsetWidth
-var height = 400;
+var height = 450;
 
 var tickNums = winWidth > 550 ? 14 : 7
 

@@ -71,9 +71,7 @@ d3.csv("corps.csv")
       .attr('class', (d) => {
         return `bar corp count ${d.corp.toLowerCase().replaceAll(' ', '-')}`
       })
-      .style("fill", (d) => {
-        return d.status === 'active' ? '#707C9C' : '#D5563A'
-      })
+      .style("fill", '#ed6a5a')
 
     svg.selectAll("bars")
       .data(csv)
@@ -83,18 +81,17 @@ d3.csv("corps.csv")
         var count = true ? ' (' + numeral(d.count).format('0,0') + `${d.corp.includes('Invitation') ? ' SFRs)' : ')'}` : ''
         return d.corp + count
       })
-      .attr('font-size', '11px')
+      .attr('font-size', '12px')
       .attr("x", function(d) {
         let w = this.getBoundingClientRect().width
         if (w - 6 + xScale(d.count) > xScale.range()[1]) {
-          return xScale(d.count) - w + margin.left
-
+          return xScale(d.count) - w - 3 + margin.left
         } else {
           return xScale(d.count) + 3 + margin.left
         }
       })
       .attr("y", function(d) {
-        return yScale(d.corp) + 11
+        return yScale(d.corp) + 12
       })
       .attr('class', (d) => {
         return `text corp count ${d.corp.toLowerCase().replaceAll(' ', '-')}`
@@ -133,7 +130,7 @@ d3.csv("corps.csv")
     //   .call(wrapText, (margin.left + margin.right))
     //   .data(csv)
     //   .style('fill', (d) => {
-    //     return d.status === 'active' ? 'black' : '#D5563A'
+    //     return d.status === 'active' ? 'black' : '#ed6a5a'
     //   })
 
     svg.append("rect")
