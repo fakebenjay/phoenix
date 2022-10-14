@@ -32,6 +32,11 @@ function mouseover(data, i, tipText, scale) {
 
   var d = y0 - scale(d0[key]) > scale(d1[key]) - y0 ? d1 : d0;
 
+  var dClass = d.corp.toLowerCase().replaceAll(' / ', '-').replaceAll(' ', '-').replaceAll('.', '')
+
+  d3.selectAll('text.corp').style('font-weight', 'normal')
+  d3.selectAll(`text.${dClass}`).style('font-weight', 'bold')
+
   var html = tipText(d)
 
   d3.select(`#tooltip-${i}`)
@@ -43,6 +48,7 @@ function mouseover(data, i, tipText, scale) {
 
   d3.select(`#tooltip-${i} .quit`)
     .on('click', () => {
+      d3.selectAll('text.corp').style('font-weight', 'normal')
       d3.select(`#tooltip-${i}`)
         .html("")
         .attr('display', 'none')
@@ -54,6 +60,7 @@ function mouseover(data, i, tipText, scale) {
 
 function mouseout(i) {
   if (window.innerWidth > 767) {
+    d3.selectAll('text.corp').style('font-weight', 'normal')
     d3.select(`#tooltip-${i}`)
       .html("")
       .attr('display', 'none')

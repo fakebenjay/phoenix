@@ -6,7 +6,7 @@ mapboxgl.accessToken =
 
 var zoomScale = d3.scaleLinear()
   .domain([639, 640])
-  .range([8.3, 8.6])
+  .range([8.7, 8.9])
   .clamp(true)
 
 var latScale = d3.scaleLinear()
@@ -36,6 +36,12 @@ const map = new mapboxgl.Map({
     [-111.5, 34.1]
   ]
 });
+
+// disable map rotation using right click + drag
+map.dragRotate.disable();
+
+// disable map rotation using touch rotation gesture
+map.touchZoomRotate.disableRotation();
 
 // Navigation buttons //
 

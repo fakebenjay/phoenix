@@ -69,7 +69,7 @@ d3.csv("corps.csv")
       })
       .attr("height", yScale.bandwidth())
       .attr('class', (d) => {
-        return `bar corp count ${d.corp.toLowerCase().replaceAll(' ', '-')}`
+        return `bar corp count ${d.corp.toLowerCase().replaceAll(' / ', '-').replaceAll(' ', '-').replaceAll('.', '')}`
       })
       .style("fill", '#ed6a5a')
 
@@ -85,7 +85,7 @@ d3.csv("corps.csv")
       .attr("x", function(d) {
         let w = this.getBoundingClientRect().width
         if (w - 6 + xScale(d.count) > xScale.range()[1]) {
-          return xScale(d.count) - w - 3 + margin.left
+          return xScale(d.count) - 3 + margin.left
         } else {
           return xScale(d.count) + 3 + margin.left
         }
@@ -94,7 +94,7 @@ d3.csv("corps.csv")
         return yScale(d.corp) + 12
       })
       .attr('class', (d) => {
-        return `text corp count ${d.corp.toLowerCase().replaceAll(' ', '-')}`
+        return `text corp count ${d.corp.toLowerCase().replaceAll(' / ', '-').replaceAll(' ', '-').replaceAll('.', '')}`
       })
       .attr("fill", function(d) {
         let w = this.getBoundingClientRect().width
@@ -104,7 +104,14 @@ d3.csv("corps.csv")
           return 'black'
         }
       })
-      .attr("text-anchor", "start")
+      .attr("text-anchor", function(d) {
+        let w = this.getBoundingClientRect().width
+        if (w - 6 + xScale(d.count) > xScale.range()[1]) {
+          return 'end'
+        } else {
+          return 'start'
+        }
+      })
 
     // Render X axis
     svg.append("g")
