@@ -43,7 +43,7 @@ svg.append("g")
 
 var yScale
 
-d3.csv("corps.csv")
+d3.csv("https://assets.law360news.com/1531000/1531385/corps.csv")
   .then(function(csv) {
     // Add Y scale
     yScale = d3.scaleBand()
@@ -78,7 +78,7 @@ d3.csv("corps.csv")
       .enter()
       .append("text")
       .text(function(d) {
-        var count = true ? ' (' + numeral(d.count).format('0,0') + `${d.corp.includes('Invitation') ? ' SFRs)' : ')'}` : ''
+        var count = true ? ' (' + numeral(d.count).format('0,0') + `${d.corp.includes('Invitation') ? ' detached SFRs)' : ')'}` : ''
         return d.corp + count
       })
       .attr('font-size', '12px')

@@ -2,7 +2,7 @@ body {
   background-color: white !important
 }
 
-#article {
+#article-body {
   max-width: 640px;
   /* 800 for A2J, 640 otherwise */
 }
